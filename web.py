@@ -1,7 +1,7 @@
-"""............................................................................................................."""
-""" Kode by MERA X """
+#"""............................................................................................................."""
+#""" Kode by MERA X """
 
-"""============================ LIBRARY ===================================="""
+#"""============================ LIBRARY ===================================="""
 import streamlit as st #Digunakan untuk membuat website
 import pandas as pd # Digunakan untuk memanggil library pandas (pandas untuk mengolah tabel data)
 from pymongo import MongoClient #Digunakan untuk memanggil library Mongo
