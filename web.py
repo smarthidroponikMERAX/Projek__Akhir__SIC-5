@@ -12,12 +12,13 @@ from sklearn.ensemble import RandomForestClassifier#digunan sebagai model Machin
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score #untuk Metrix Maachine Learning
 
 st.set_page_config(page_title='Smart Hidroponik',layout="wide", page_icon="🍀") 
-"""
+
+'''
 Untuk memberi judul pada tab browser, layout wide artinya menampilkan secara penuh web, page icon digunakan untuk memberi gambar di tab browser
 
 Penjelasan :
 kami menemukan kode untuk menampilkan icon di symbl.cc
-"""
+'''
 
 def ambil_data():
     """============================= INISIALISASI DATA ==================================="""
