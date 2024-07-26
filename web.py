@@ -13,4 +13,7 @@ from sklearn.linear_model import LogisticRegression #digunkan sebagai model Mach
 from sklearn.ensemble import RandomForestClassifier#digunan sebagai model Machine Learning
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score #untuk Metrix Maachine Learning
 
-st.set_page_config(page_title='Smart Hidroponik',layout="wide", page_icon="🌿") 
+st.set_page_config(page_title='Smart Hidroponik',layout="wide", page_icon="https://raw.githubusercontent.com/Yeahthu/tes-streamlit/main/logo%20fixx1.png") 
+"""
+Untuk memberi judul pada tab browser, layout wide artinya menampilkan secara penuh web, page icon digunakan untuk memberi gambar di tab browser
+"""
