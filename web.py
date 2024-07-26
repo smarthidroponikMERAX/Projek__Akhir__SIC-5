@@ -87,6 +87,6 @@ background-color: #fff; # warna backgroud
     text-align: center;
     height: 18.75em;
 }
-
+"""
     
         </style>
