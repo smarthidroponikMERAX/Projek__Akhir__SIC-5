@@ -1,4 +1,5 @@
 # Projek Akhir SIC 5 
+# Nama Produk : Smart Hidroponik
 # Nama Kelompok : MERA X
 # Asal Sekolah  : SMKN 2 Surakarta
  
