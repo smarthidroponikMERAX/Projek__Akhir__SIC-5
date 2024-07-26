@@ -64,4 +64,29 @@ def ambil_data():
     Kami tidak menampilkan atau mengambil _id tidak terlalu penting, sehiingga hanya perlu mengambil atau menampilkan pH, tds/nutrisi,suhu.
     lalu kami juga harus mengurutkan data terakhir bukan data pertama, maka dari itu index nya -1
     """
+
+def web():
+    desain_css = """
+        <style>
+        
+body { # untuk setting dari halaman keseluruhan
+margin: 0; # pembatas bagian luar 
+padding: 0; #pembatas bagian dalam
+font-family: sans-serif; #jenis font
+background-color: #fff; # warna backgroud
+}
+.bagian-header {
+    background-image: url("https://raw.githubusercontent.com/Yeahthu/tes-streamlit/main/bgHidroponik.jpg");
+    border-radius: 10px 10px 0 0;
+    border-bottom: 2px solid #eb0e0e;
+    margin: 0;
+    padding: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    text-align: center;
+    height: 18.75em;
+}
+
     
+        </style>
