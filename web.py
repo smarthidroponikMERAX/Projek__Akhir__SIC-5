@@ -48,13 +48,14 @@ def ambil_data():
     # mongodb+srv://<username>:<password>@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik
     # """
     
-    data_mongo = koleksi.find({}, {'_id': 0, 'pH': 1, 'tds': 1, 'suhu': 1}).sort('waktu', -1)
+    data_mongo = list(koleksi.find({}, {'_id': 0, 'pH': 1, 'tds': 1, 'suhu': 1}).sort('waktu', -1))
     # .find digunakan untuk mengambil semua data, data yang tampil hanya pH, tds/nutrisi, dan suhu, .sort digunakan untuk mengurutkan waktu terakhir masuk
-    data_list = list(data_mongo) # Membuat menjadi list
+    # list untuk Membuat menjadi list
+    data_frame = pd.Dataframe(data_list) #agar data terstruktur dan rapi maka memerlukan dataframe dari pandas
     
     
     if data_list: #Jika data_list tidak kosong maka if akan mengembalikan data pertama dari list
-      return data_list[0]
+      return data_list[0],data_frame
     else: #Jika tidak ada data maka else tidak akan terjadi apa apa
       None
     
@@ -66,6 +67,8 @@ def ambil_data():
     # """
 
 def web():
+    #"""============================DESAIN WEB================="""
+    
     desain_css = """
         <style>
         
@@ -387,6 +390,35 @@ background-color: #fff; # warna backgroud
     st.markdown(desain_css, unsafe_allow_html=True) 
     st.markdown(html_content, unsafe_allow_html=True)
 
+def Machine_learning():
+    data_frame = ambil_data()
+    
+    independen_ph = data_frame[['suhu', 'tds']] #indedependen_pH adalah variabel yang berisi dataframe yang mengambil data suhu dan tds
+    dependen_ph = data_frame[['pH']] #dependen_pH adalah variabel yang berisi dataframe yang mengambil data pH
+    
+    #memisahkan data untuk prediksi Nutrisi/tds
+    independen_nutrisi = data_frame[['suhu', 'pH']] #indedependen_pH adalah variabel yang berisi dataframe yang mengambil data suhu dan pH
+    dependen_nutrisi = data_frame[['tds']] #dependen_pH adalah variabel yang berisi dataframe yang mengambil data tds atau Nutrisi
+    
+    """
+    Penjelasan: 
+    
+    Kami memisahkan data pH dan Nutrisi/TDS menjadi dua buah dataframe yang berbeda,
+    karena kami menginginkan prediksi data pH dan nutrisi/TDS maka kami memisahkan independen dan dependen menjadi 2 bagian yaitu bagian pH dan tds
+    untuk prediksi pH kami menggunakan suhu dan tds/nutrisi sebagai acuan atau indepneden data
+    untuk prediksi tds/nutrisi kami menggunakan suhu dan pH sebagai acuan atau indepneden data
+    """
 
+    
+    st.title("Smart Hidroponik - Prediksi Kesehatan Tanaman")
+
+    # Display the data
+    st.subheader("Data Sensor")
+    st.write(data_rapi)
+
+    # Clean the data
+    st.subheader("Pengecekan Data")
+    st.write("Deskripsi Data:")
+    st.write(data_rapi.describe())
 
 
