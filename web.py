@@ -357,7 +357,7 @@ else:
     st.write("Kolom 'waktu' tidak ditemukan dalam data_frame. Pastikan nama kolom sudah benar.")
 
 
-st.subheader("Choose Machine Learning Model")
+st.subheader("Pilih Machine Learning Model")
 model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest"))
 
 if model_option:
