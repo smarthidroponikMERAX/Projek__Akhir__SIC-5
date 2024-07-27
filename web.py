@@ -362,7 +362,7 @@ st.markdown(html_content, unsafe_allow_html=True)
 
 
     #menampilkan grafik 
-    st.title("Grafik pH, suhu, Nutrisi")
+st.title("Grafik pH, suhu, Nutrisi")
 
 if 'waktu' in data_frame.columns:
     data_frame['waktu'] = pd.to_datetime(data_frame['waktu'], errors='coerce')
