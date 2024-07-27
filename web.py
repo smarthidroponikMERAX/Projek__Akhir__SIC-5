@@ -333,13 +333,6 @@ st.markdown(html_content, unsafe_allow_html=True)
 
 if data_frame is not None:
 
-
-    st.subheader("Choose Machine Learning Model")
-    model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest"))
-
-    if model_option:
-        st.success(f"{model_option} selected!")
-
     st.title("Smart Hidroponik - Prediksi Kesehatan Tanaman")
 
 if 'waktu' in data_frame.columns:
@@ -413,8 +406,13 @@ precision_nutrisi = precision_score(dependen_test_nutrisi, hasil_prediksi_nutris
 recall_nutrisi = recall_score(dependen_test_nutrisi, hasil_prediksi_nutrisi, average='macro')
 f1_nutrisi = f1_score(dependen_test_nutrisi, hasil_prediksi_nutrisi, average='macro')
 
-# Display the results
-st.subheader("Model Evaluation")
+
+st.subheader("Choose Machine Learning Model")
+model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest"))
+
+if model_option:
+   st.success(f"{model_option} selected!")
+st.subheader("Evaluasi Model, ")
 st.write(f"Accuracy (pH): {accuracy_ph:.2f}")
 st.write(f"Precision (pH): {precision_ph:.2f}")
 st.write(f"Recall (pH): {recall_ph:.2f}")
