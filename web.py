@@ -391,7 +391,7 @@ background-color: #fff; # warna backgroud
     st.markdown(html_content, unsafe_allow_html=True)
 
 def Machine_learning():
-    data_frame = ambil_data()
+    data_frame = ambil_data()[1]
 
     
     # Sidebar navigation
