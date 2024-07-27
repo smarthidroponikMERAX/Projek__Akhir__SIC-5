@@ -51,11 +51,11 @@ def ambil_data():
     data_mongo = list(koleksi.find({}, {'_id': 0, 'pH': 1, 'tds': 1, 'suhu': 1}).sort('waktu', -1))
     # .find digunakan untuk mengambil semua data, data yang tampil hanya pH, tds/nutrisi, dan suhu, .sort digunakan untuk mengurutkan waktu terakhir masuk
     # list untuk Membuat menjadi list
-    data_frame = pd.Dataframe(data_list) #agar data terstruktur dan rapi maka memerlukan dataframe dari pandas
+    data_frame = pd.DataFrame(data_mongo) #agar data terstruktur dan rapi maka memerlukan dataframe dari pandas
     
     
     if data_list: #Jika data_list tidak kosong maka if akan mengembalikan data pertama dari list
-      return data_list[0],data_frame
+      return data_frame
     else: #Jika tidak ada data maka else tidak akan terjadi apa apa
       None
     
