@@ -168,7 +168,7 @@ background: linear-gradient(to right,
 
 .slide-nutrisi::-webkit-slider-runnable-track {
 background: linear-gradient(to right, 
-        blue 0%, green 50%, red 100%);
+        blue 0%,blue 30%,  green 40% ,green 50%, red 100%);
 }
 
 .slide-ph::-webkit-slider-thumb, .slide-suhu::-webkit-slider-thumb, .slide-nutrisi::-webkit-slider-thumb {
@@ -309,7 +309,7 @@ html_content = f"""
     <div class="info">[1050 - 1400 ppm]</div>
     <div class="info">[Lebih dari 1400 ppm]</div>
 </div>
-<p>NUtrisi di tanamanmu: <span id="demo">{nutrisi}</span></p>
+<p>Nutrisi di tanamanmu: <span id="demo">{nutrisi}</span></p>
 </div>
 <script>
 function updatePhColor(value) {{
