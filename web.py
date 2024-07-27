@@ -366,19 +366,19 @@ if model_option:
    
 def categorize_ph(value):
     if value < 5:
-        return 'Rendah'
+        return 'tidak sehat'
     elif 5 <= value <= 7:
-        return 'Sedang'
+        return 'sehat'
     else:
-        return 'Tinggi'
+        return 'tidak sehat'
 
 def categorize_tds(value):
     if value < 1050:
-        return 'Rendah'
+        return 'tidak sehat'
     elif 1050 <= value <= 1400:
-        return 'Sedang'
+        return 'sehat'
     else:
-        return 'Tinggi'
+        return 'tidak sehat'
 
 data_frame['pH kategori'] = data_frame['pH'].apply(categorize_ph)
 data_frame['TDS kategori'] = data_frame['tds'].apply(categorize_tds)
