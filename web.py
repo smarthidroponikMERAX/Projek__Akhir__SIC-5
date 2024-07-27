@@ -334,7 +334,7 @@ st.markdown(html_content, unsafe_allow_html=True)
 
 if data_frame is not None:
 
-    st.title("Smart Hidroponik - Prediksi Kesehatan Tanaman")
+    st.title("Grafik pH, suhu, Nutrisi")
 
 if 'waktu' in data_frame.columns:
     data_frame['waktu'] = pd.to_datetime(data_frame['waktu'], errors='coerce')
@@ -436,20 +436,21 @@ st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
 # if st.session_state['page'] == 'convert_csv':
 #     convert_csv.show()
 
-st.subheader("Distribusi Kategori pH dan TDS")
-
-fig, ax = plt.subplots(1, 2, figsize=(14, 6))
-
+st.subheader("Grafik kesehatan tanaman
 # Grafik distribusi pH
-data_frame['pH kategori'].value_counts().plot(kind='bar', ax=ax[0], color=['red', 'green'])
+pH_counts = data_frame['pH kategori'].value_counts()
+pH_counts.plot(kind='bar', ax=ax[0], color=['red', 'green'])
 ax[0].set_title('Distribusi Kategori pH')
 ax[0].set_xlabel('Kategori pH')
 ax[0].set_ylabel('Jumlah')
+ax[0].set_xticklabels(['Tidak Sehat', 'Sehat'], rotation=0)
 
 # Grafik distribusi TDS
-data_frame['TDS kategori'].value_counts().plot(kind='bar', ax=ax[1], color=['red', 'green'])
+TDS_counts = data_frame['TDS kategori'].value_counts()
+TDS_counts.plot(kind='bar', ax=ax[1], color=['red', 'green'])
 ax[1].set_title('Distribusi Kategori TDS')
 ax[1].set_xlabel('Kategori TDS')
 ax[1].set_ylabel('Jumlah')
+ax[1].set_xticklabels(['Tidak Sehat', 'Sehat'], rotation=0)
 
 st.pyplot(fig)
