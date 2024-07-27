@@ -425,3 +425,13 @@ st.write(f"Accuracy (Nutrisi): {accuracy_nutrisi:.2f}")
 st.write(f"Precision (Nutrisi): {precision_nutrisi:.2f}")
 st.write(f"Recall (Nutrisi): {recall_nutrisi:.2f}")
 st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
+
+
+if 'page' not in st.session_state:
+    st.session_state['page'] = 'convert_csv'
+# Fungsi untuk mengatur navigasi
+def navigate_to(page):
+    st.session_state['page'] = page
+st.sidebar.button("Konversi ke Csv", on_click=navigate_to, args=("convert_csv",))
+if st.session_state['page'] == 'convert_csv':
+    convert_csv.show()
