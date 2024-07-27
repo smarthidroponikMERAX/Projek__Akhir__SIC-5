@@ -1,7 +1,6 @@
 #"""============================ LIBRARY ===================================="""
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 from pymongo import MongoClient
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -435,29 +434,3 @@ st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
 # st.sidebar.button("Konversi ke Csv", on_click=navigate_to, args=("convert_csv",))
 # if st.session_state['page'] == 'convert_csv':
 #     convert_csv.show()
-
-
-# Periksa data kategori
-st.write(data_frame[['pH kategori', 'TDS kategori']].head())
-
-# Membuat subplot
-fig, ax = plt.subplots(figsize=(14, 6))
-
-# Grafik distribusi pH
-pH_counts = data_frame['pH kategori'].dropna().value_counts()
-pH_counts.plot(kind='bar', ax=ax[0], color=['red', 'green'])
-ax[0].set_title('Distribusi Kategori pH')
-ax[0].set_xlabel('Kategori pH')
-ax[0].set_ylabel('Jumlah')
-ax[0].set_xticklabels(['Tidak Sehat', 'Sehat'], rotation=0)
-
-# Grafik distribusi TDS
-TDS_counts = data_frame['TDS kategori'].dropna().value_counts()
-TDS_counts.plot(kind='bar', ax=ax[1], color=['red', 'green'])
-ax[1].set_title('Distribusi Kategori TDS')
-ax[1].set_xlabel('Kategori TDS')
-ax[1].set_ylabel('Jumlah')
-ax[1].set_xticklabels(['Tidak Sehat', 'Sehat'], rotation=0)
-
-# Tampilkan grafik di Streamlit
-st.pyplot(fig)
