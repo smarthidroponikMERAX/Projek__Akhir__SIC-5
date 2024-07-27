@@ -441,7 +441,7 @@ st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
 st.write(data_frame[['pH kategori', 'TDS kategori']].head())
 
 # Membuat subplot
-fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+fig, ax = plt.subplots(figsize=(14, 6))
 
 # Grafik distribusi pH
 pH_counts = data_frame['pH kategori'].dropna().value_counts()
