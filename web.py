@@ -15,7 +15,7 @@ st.set_page_config(page_title='Smart Hidroponik', layout="wide", page_icon="🍀
 
 
 #"""============================= INISIALISASI DATA ==================================="""
-print("\n============ DATA ================\n")
+
 
 client = MongoClient('mongodb+srv://SmartHidroponik:MERA_X@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik')
 database = client['Smart_Hidroponik']
@@ -138,7 +138,6 @@ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 width: 100%;
 margin: 30px 0;
 }
-
 .slide-ph:focus, .slide-suhu:focus, .slide-nutrisi:focus {
 outline: none;
 }
@@ -150,14 +149,12 @@ cursor: pointer;
 border-radius: 10px;
 border: 0.2px solid #010101;
 }
-
 .slide-ph::-webkit-slider-runnable-track {
 background: linear-gradient(to right, 
         red 0%, rgb(255, 149, 0) 20%, 
         rgb(36, 249, 3) 30%, rgb(2, 82, 2) 50%, 
         rgb(45, 1, 76) 80%, purple 100%);
 }
-
 .slide-suhu::-webkit-slider-runnable-track {
 background: linear-gradient(to right, 
         rgb(0, 42, 255) 0%, rgb(52, 63, 217) 20%, 
