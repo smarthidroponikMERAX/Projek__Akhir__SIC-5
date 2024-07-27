@@ -17,13 +17,11 @@ st.set_page_config(page_title='Smart Hidroponik', layout="wide", page_icon="🍀
 
 #"""============================= INISIALISASI DATA ==================================="""
 
-#Memanggil data dari Mongodb atau lebih tepatnya adalah mengkoneksikan ke Mongodb
-# """ 
+#Memanggil data dari Mongodb atau lebih tepatnya adalah mengkoneksikan ke Mongodb 
 # Penjelasan :
-
-# Alasan kami memanggil atau mengkoneksikan Mongodb 
-# dikarenakan data sensor pH, suhu, tds atau nutrisi yang ada di File .ino dikirim ke Flask 
-# lalu dikirim ke Mongodb, agar data kami disimpan di database
+#Alasan kami memanggil atau mengkoneksikan Mongodb 
+#dikarenakan data sensor pH, suhu, tds atau nutrisi yang ada di File .ino dikirim ke Flask 
+#lalu dikirim ke Mongodb, agar data kami disimpan di database
 
 
 client = MongoClient('mongodb+srv://SmartHidroponik:MERA_X@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik')
