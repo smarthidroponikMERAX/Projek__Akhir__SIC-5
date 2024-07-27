@@ -47,7 +47,7 @@ data_frame = pd.DataFrame(data_mongo)  # Membuat menjadi list
     
  #    Kami tidak menampilkan atau mengambil _id tidak terlalu penting, sehiingga hanya perlu mengambil atau menampilkan pH, tds/nutrisi,suhu.
  #    lalu kami juga harus mengurutkan data terakhir bukan data pertama, maka dari itu index nya -1
- # """
+
 
 
 #"""============================DESAIN WEB================="""
