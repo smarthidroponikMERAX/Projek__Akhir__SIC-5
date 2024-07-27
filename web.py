@@ -54,7 +54,7 @@ def ambil_data():
     data_frame = pd.DataFrame(data_mongo) #agar data terstruktur dan rapi maka memerlukan dataframe dari pandas
     
     
-    if data_list: #Jika data_list tidak kosong maka if akan mengembalikan data pertama dari list
+    if data_frame: #Jika data_list tidak kosong maka if akan mengembalikan data pertama dari list
       return data_frame
     else: #Jika tidak ada data maka else tidak akan terjadi apa apa
       None
