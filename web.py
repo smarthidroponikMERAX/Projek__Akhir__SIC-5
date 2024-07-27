@@ -356,6 +356,13 @@ if 'waktu' in data_frame.columns:
 else:
     st.write("Kolom 'waktu' tidak ditemukan dalam data_frame. Pastikan nama kolom sudah benar.")
 
+
+st.subheader("Choose Machine Learning Model")
+model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest"))
+
+if model_option:
+   st.success(f"{model_option} selected!")
+   
 def categorize_ph(value):
     if value < 5:
         return 'Rendah'
@@ -407,11 +414,6 @@ recall_nutrisi = recall_score(dependen_test_nutrisi, hasil_prediksi_nutrisi, ave
 f1_nutrisi = f1_score(dependen_test_nutrisi, hasil_prediksi_nutrisi, average='macro')
 
 
-st.subheader("Choose Machine Learning Model")
-model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest"))
-
-if model_option:
-   st.success(f"{model_option} selected!")
 st.subheader("Evaluasi Model, ")
 st.write(f"Accuracy (pH): {accuracy_ph:.2f}")
 st.write(f"Precision (pH): {precision_ph:.2f}")
