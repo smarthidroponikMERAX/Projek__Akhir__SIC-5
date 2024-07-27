@@ -511,5 +511,7 @@ def Machine_learning():
 
 
     
+web()
+Machinne_learning()
 
 
