@@ -24,7 +24,7 @@ def show():
         data_frame = pd.DataFrame(data)
         
         
-        if '_id' in df.columns:
+        if '_id' in data_frame.columns:
             data_frame.drop(columns=['_id'], inplace=True)
         
         total_samples = len(df)
