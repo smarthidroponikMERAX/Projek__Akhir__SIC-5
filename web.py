@@ -468,7 +468,7 @@ def Machine_learning():
             model_nutrisi = LogisticRegression(class_weight='balanced')
         elif model_option == "Random Forest":
             model_ph = RandomForestClassifier(class_weight='balanced')
-            model_nutrisi = RandomForestClassifier(class_weight='balanced
+            model_nutrisi = RandomForestClassifier(class_weight='balanced')
                 
         model_LR_ph = LogisticRegression(class_weight='balanced')
         model_LR_ph.fit(independen_train_ph, dependen_train_ph)
