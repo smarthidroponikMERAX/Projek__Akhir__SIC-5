@@ -392,33 +392,124 @@ background-color: #fff; # warna backgroud
 
 def Machine_learning():
     data_frame = ambil_data()
-    
-    independen_ph = data_frame[['suhu', 'tds']] #indedependen_pH adalah variabel yang berisi dataframe yang mengambil data suhu dan tds
-    dependen_ph = data_frame[['pH']] #dependen_pH adalah variabel yang berisi dataframe yang mengambil data pH
-    
-    #memisahkan data untuk prediksi Nutrisi/tds
-    independen_nutrisi = data_frame[['suhu', 'pH']] #indedependen_pH adalah variabel yang berisi dataframe yang mengambil data suhu dan pH
-    dependen_nutrisi = data_frame[['tds']] #dependen_pH adalah variabel yang berisi dataframe yang mengambil data tds atau Nutrisi
-    
-    """
-    Penjelasan: 
-    
-    Kami memisahkan data pH dan Nutrisi/TDS menjadi dua buah dataframe yang berbeda,
-    karena kami menginginkan prediksi data pH dan nutrisi/TDS maka kami memisahkan independen dan dependen menjadi 2 bagian yaitu bagian pH dan tds
-    untuk prediksi pH kami menggunakan suhu dan tds/nutrisi sebagai acuan atau indepneden data
-    untuk prediksi tds/nutrisi kami menggunakan suhu dan pH sebagai acuan atau indepneden data
-    """
 
     
-    st.title("Smart Hidroponik - Prediksi Kesehatan Tanaman")
+    # Sidebar navigation
+    st.sidebar.title("Navigation")
+    pages = ["Generate Data and Choose Model", "Show Data Table and Predictions"]
+    page = st.sidebar.radio("Go to", pages)
 
-    # Display the data
-    st.subheader("Data Sensor")
-    st.write(data_rapi)
+    if page == "Generate Data and Choose Model":
+        st.title("Generate Data and Choose Model")
 
-    # Clean the data
-    st.subheader("Pengecekan Data")
-    st.write("Deskripsi Data:")
-    st.write(data_rapi.describe())
+        # Slider untuk jumlah sampel
+        num_samples = st.slider("Number of samples", min_value=1, max_value=1000, value=336)
+        
+        # Tombol untuk generate data
+        if st.button("Generate Data"):
+            st.success(f"{num_samples} samples generated!")
+        
+        # Pilih model machine learning
+        st.subheader("Choose Machine Learning Model")
+        model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest", "Support Vector Machine", "Decision Tree", "K-Nearest Neighbors"))
+        
+        if model_option:
+            st.success(f"{model_option} selected!")
+        
+    elif page == "Show Data Table and Predictions":
+        st.title("Smart Hidroponik - Prediksi Kesehatan Tanaman")
+
+        # Display the data
+        st.subheader("Data Sensor")
+        st.write(data_frame)
+
+        # Clean the data
+        st.subheader("Pengecekan Data")
+        st.write("Deskripsi Data:")
+        st.write(data_frame.describe())
+
+        # Categorize target variables
+        def categorize_ph(value):
+            if value < 5:
+                return 'Rendah'
+            elif 5 <= value <= 7:
+                return 'Sedang'
+            else:
+                return 'Tinggi'
+
+        def categorize_tds(value):
+            if value < 1050:
+                return 'Rendah'
+            elif 1050 <= value <= 1400:
+                return 'Sedang'
+            else:
+                return 'Tinggi'
+
+        data_frame['pH kategori'] = data_frame['pH'].apply(categorize_ph)
+        data_frame['TDS kategori'] = data_frame['tds'].apply(categorize_tds)
+
+        # Encode categorical data
+        label_encoder = LabelEncoder()
+        data_frame['TDS kategori'] = label_encoder.fit_transform(data_frame['TDS kategori'])
+        data_frame['pH kategori'] = label_encoder.fit_transform(data_frame['pH kategori'])
+
+        # Prepare data for modeling
+        independen_ph = data_frame[['suhu', 'tds']]
+        dependen_ph = data_frame['pH kategori']
+        independen_nutrisi = data_frame[['suhu', 'pH']]
+        dependen_nutrisi = data_frame['TDS kategori']
+
+        # Split data
+        independen_train_ph, independen_test_ph, dependen_train_ph, dependen_test_ph = train_test_split(independen_ph, dependen_ph, test_size=0.25, stratify=dependen_ph)
+        independen_train_nutrisi, independen_test_nutrisi, dependen_train_nutrisi, dependen_test_nutrisi = train_test_split(independen_nutrisi, dependen_nutrisi, test_size=0.25, stratify=dependen_nutrisi)
+
+        if model_option == "Linear Regression":
+            model_ph = LogisticRegression(class_weight='balanced')
+            model_nutrisi = LogisticRegression(class_weight='balanced')
+        elif model_option == "Random Forest":
+            model_ph = RandomForestClassifier(class_weight='balanced')
+            model_nutrisi = RandomForestClassifier(class_weight='balanced
+                
+        model_LR_ph = LogisticRegression(class_weight='balanced')
+        model_LR_ph.fit(independen_train_ph, dependen_train_ph)
+        hasil_prediksi_LR_ph = model_LR_ph.predict(independen_test_ph)
+    
+        model_RF_ph = RandomForestClassifier(class_weight='balanced')
+        model_RF_ph.fit(independen_train_ph, dependen_train_ph)
+        hasil_prediksi_RF_ph = model_RF_ph.predict(independen_test_ph)
+    
+        # Modeling Nutrisi
+        model_LR_nutrisi = LogisticRegression(class_weight='balanced')
+        model_LR_nutrisi.fit(independen_train_nutrisi, dependen_train_nutrisi)
+        hasil_prediksi_LR_nutrisi = model_LR_nutrisi.predict(independen_test_nutrisi)
+    
+        model_RF_nutrisi = RandomForestClassifier(class_weight='balanced')
+        model_RF_nutrisi.fit(independen_train_nutrisi, dependen_train_nutrisi)
+        hasil_prediksi_RF_nutrisi = model_RF_nutrisi.predict(independen_test_nutrisi)
+    
+    
+            # Evaluation
+        accuracy_LR_ph = accuracy_score(dependen_test_ph, hasil_prediksi_LR_ph)
+        precision_LR_ph = precision_score(dependen_test_ph, hasil_prediksi_LR_ph, average='macro')
+        recall_LR_ph = recall_score(dependen_test_ph, hasil_prediksi_LR_ph, average='macro')
+        f1_LR_ph = f1_score(dependen_test_ph, hasil_prediksi_LR_ph, average='macro')
+    
+        accuracy_RF_ph = accuracy_score(dependen_test_ph, hasil_prediksi_RF_ph)
+        precision_RF_ph = precision_score(dependen_test_ph, hasil_prediksi_RF_ph, average='macro')
+        recall_RF_ph = recall_score(dependen_test_ph, hasil_prediksi_RF_ph, average='macro')
+        f1_RF_ph = f1_score(dependen_test_ph, hasil_prediksi_RF_ph, average='macro')
+    
+        accuracy_LR_nutrisi = accuracy_score(dependen_test_nutrisi, hasil_prediksi_LR_nutrisi)
+        precision_LR_nutrisi = precision_score(dependen_test_nutrisi, hasil_prediksi_LR_nutrisi, average='macro')
+        recall_LR_nutrisi = recall_score(dependen_test_nutrisi, hasil_prediksi_LR_nutrisi, average='macro')
+        f1_LR_nutrisi = f1_score(dependen_test_nutrisi, hasil_prediksi_LR_nutrisi, average='macro')
+    
+        accuracy_RF_nutrisi = accuracy_score(dependen_test_nutrisi, hasil_prediksi_RF_nutrisi)
+        precision_RF_nutrisi = precision_score(dependen_test_nutrisi, hasil_prediksi_RF_nutrisi, average='macro')
+        recall_RF_nutrisi = recall_score(dependen_test_nutrisi, hasil_prediksi_RF_nutrisi, average='macro')
+        f1_RF_nutrisi = f1_score(dependen_test_nutrisi, hasil_prediksi_RF_nutrisi, average='macro')
+
+
+    
 
 
