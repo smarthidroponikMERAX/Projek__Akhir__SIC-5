@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-
+import convert_csv.py
 
 
 st.set_page_config(page_title='Smart Hidroponik', layout="wide", page_icon="🍀")
@@ -425,55 +425,3 @@ st.write(f"Accuracy (Nutrisi): {accuracy_nutrisi:.2f}")
 st.write(f"Precision (Nutrisi): {precision_nutrisi:.2f}")
 st.write(f"Recall (Nutrisi): {recall_nutrisi:.2f}")
 st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
-
-def show():
-        def database:
-            client = MongoClient('mongodb+srv://SmartHidroponik:MERA_X@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik')
-            database = client['Smart_Hidroponik']
-            koleksi = database['Sensor']
-            data = list(koleksi.find())
-            return data
-        
-        def convert_to_csv(df):
-            return data_frame.to_csv(index=False).encode('utf-8')
-        
-        
-        st.title('Unduh Sampel Data MongoDB sebagai CSV')
-        
-        
-        data = database()
-        
-        
-        data_frame = pd.DataFrame(data)
-        
-        
-        if '_id' in df.columns:
-            df.drop(columns=['_id'], inplace=True)
-        
-        total_samples = len(df)
-        
-        
-        slide_data_sampel = st.slider("Number of samples", min_value=1, max_value=total_samples, value=min(10, total_samples))
-        
-        
-        generate_button = st.button("Generate CSV")
-        
-        if generate_button:
-        
-            df_sample = df.head(num_samples)
-            
-        
-            data_csv = convert_to_csv(df_sample)
-            
-        
-            data_byte = io.BytesIO(data_csv)
-            st.download_button(
-                label="Unduh CSV",
-                data=data_byte,
-                file_name='data_sample_smarthidroponik.csv',
-                mime='text/csv'
-            )
-            st.success(f"Data sampel ({slide_data_sampel} baris) berhasil, siap diunduh sebagai CSV!")
-show()
-
-
