@@ -11,7 +11,7 @@ def show():
             data = list(koleksi.find())
             return data
         
-        def convert_to_csv(df):
+        def convert_to_csv(data_frame):
             return data_frame.to_csv(index=False).encode('utf-8')
         
         
@@ -25,7 +25,7 @@ def show():
         
         
         if '_id' in df.columns:
-            df.drop(columns=['_id'], inplace=True)
+            data_frame.drop(columns=['_id'], inplace=True)
         
         total_samples = len(df)
         
@@ -37,7 +37,7 @@ def show():
         
         if generate_button:
         
-            df_sample = df.head(num_samples)
+            df_sample = data_frame.head(num_samples)
             
         
             data_csv = convert_to_csv(df_sample)
