@@ -27,7 +27,7 @@ def show():
         if '_id' in data_frame.columns:
             data_frame.drop(columns=['_id'], inplace=True)
         
-        total_samples = len(df)
+        total_samples = len(data_frame)
         
         
         slide_data_sampel = st.slider("Number of samples", min_value=1, max_value=total_samples, value=min(10, total_samples))
