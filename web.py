@@ -434,3 +434,21 @@ st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
 # st.sidebar.button("Konversi ke Csv", on_click=navigate_to, args=("convert_csv",))
 # if st.session_state['page'] == 'convert_csv':
 #     convert_csv.show()
+
+st.subheader("Distribusi Kategori pH dan TDS")
+
+    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Grafik distribusi pH
+    data_frame['pH kategori'].value_counts().plot(kind='bar', ax=ax[0], color=['red', 'green'])
+    ax[0].set_title('Distribusi Kategori pH')
+    ax[0].set_xlabel('Kategori pH')
+    ax[0].set_ylabel('Jumlah')
+
+    # Grafik distribusi TDS
+    data_frame['TDS kategori'].value_counts().plot(kind='bar', ax=ax[1], color=['red', 'green'])
+    ax[1].set_title('Distribusi Kategori TDS')
+    ax[1].set_xlabel('Kategori TDS')
+    ax[1].set_ylabel('Jumlah')
+
+    st.pyplot(fig)
