@@ -181,7 +181,7 @@ void Relay () {
     digitalWrite(relay2, HIGH);
   }
   // Mengatur relay berdasarkan nilai TDS
-  if (tds >= 0 && tds <= 400) {         //Jika nilai tds rendah (< 400 ppm), maka ditambahkan pupuk
+  if (tds >= 0 && tds <= 1100) {         //Jika nilai tds rendah (< 400 ppm), maka ditambahkan Nutrisi
     digitalWrite(relay3, LOW);
   } else {                              //kondisi normal, relay 3 mati untuk pupuk
     digitalWrite(relay3, HIGH);
@@ -209,7 +209,7 @@ void Display () {
   lcd.setCursor(9, 1);  lcd.print(" ");    lcd.print(suhu);
   }
 
-void Streamlit() {
+void Streamlit() { //streamlit
     unsigned long currentMillis = millis();
     if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
@@ -222,11 +222,11 @@ void Streamlit() {
             jsonDoc["tds"] = round(tds * 100.0) / 100.0;
             jsonDoc["suhu"] = round(suhu * 100.0) / 100.0;
 
-        // Mengubah objek JSON menjadi string
+        // pengubah JSON menjadi string
         String httpRequestData;
         serializeJson(jsonDoc, httpRequestData);
 
-        // Mengirim POST request
+        //  mengirimkan POST request
         int httpResponseCode = http.POST(httpRequestData);
         if (httpResponseCode > 0) {
             String response = http.getString();
