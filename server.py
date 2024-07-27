@@ -26,13 +26,11 @@ def dapat_data():
      waktu = dt.now().strftime("%d-%m-%Y ----- %H:%M:%S")
 
      data['waktu'] = waktu
-
-    if 'pH' in data and 'tds' in data and 'suhu' in data:
+     if 'pH' in data and 'tds' in data and 'suhu' in data:
         try:
             data['pH'] = round(float(data['pH']), 2)
             data['tds'] = round(float(data['tds']), 2)
             data['suhu'] = round(float(data['suhu']), 2)
-
             data_ada = koleksi_database.find_one({'waktu': waktu})
             if data_ada:
                 return jsonify({"Pemberitahuan": "Data telah tersedia"}), 200
@@ -41,11 +39,9 @@ def dapat_data():
                 return jsonify({"Pemberitahuan": "Data berhasil disisipkan"}), 201
         except ValueError as e:
             return jsonify({"error": "Format data tidak valid"}), 400
-    else:
+     else:
         return jsonify({"error": "Tidak ada data, mohon cek kembali"}), 400
         
-     else:
-         return jsonify({"error": "Tidak ada data, mohon cek kembali"}), 400
 
 
 # ''' ======= KONVERSI OBJECT_ID =========='''
@@ -75,7 +71,7 @@ def get_data():
      data = list(koleksi_database.find())  # Fetch data from MongoDB
      data = konversi_objectid(data)  # Convert ObjectId to string
       # Menambahkan satuan ke data yang dikembalikan
-    for item in data:
+     for item in data:
         if 'pH' in item and isinstance(item['pH'], (float, int)):
             item['pH'] = f"{item['pH']:.2f} pH"
         if 'tds' in item and isinstance(item['tds'], (float, int)):
@@ -105,7 +101,6 @@ def delete_data(date):
         return jsonify({"error": "Format tanggal tidak valid. Gunakan format dd-mm-yyyy"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
- if __name__ == '__main__':
+if __name__ == '__main__':
       web.run(host='0.0.0.0', port=5000, debug=True)
 
