@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import io
 
 def show():
-        def database:
+        def database():
             client = MongoClient('mongodb+srv://SmartHidroponik:MERA_X@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik')
             database = client['Smart_Hidroponik']
             koleksi = database['Sensor']
