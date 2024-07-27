@@ -1,12 +1,14 @@
+#kode by MERA X
+
 #"""============================ LIBRARY ===================================="""
-import streamlit as st
-import pandas as pd
-from pymongo import MongoClient
-from sklearn.preprocessing import LabelEncoder
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import streamlit as st  # Digunakan untuk memanggil library streamlit untuk website
+import pandas as pd  # Digunakan untuk memanggil library pandas (pandas untuk mengolah tabel data)
+from pymongo import MongoClient  #Digunakan untuk memanggil library Mongo
+from sklearn.preprocessing import LabelEncoder  #digunakan untuk membuat endcoding
+from sklearn.model_selection import train_test_split  #diguakan memisahkan data train dan data test
+from sklearn.linear_model import LogisticRegression #digunkan sebagai model MachineLearning
+from sklearn.ensemble import RandomForestClassifier  #digunan sebagai model Machine Learning
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score  #untuk Metrix
 #import convert_csv
 
 st.set_page_config(page_title='Smart Hidroponik', layout="wide", page_icon="🍀")
@@ -15,12 +17,22 @@ st.set_page_config(page_title='Smart Hidroponik', layout="wide", page_icon="🍀
 
 #"""============================= INISIALISASI DATA ==================================="""
 
+#Memanggil data dari Mongodb atau lebih tepatnya adalah mengkoneksikan ke Mongodb
+# """ 
+# Penjelasan :
+
+# Alasan kami memanggil atau mengkoneksikan Mongodb 
+# dikarenakan data sensor pH, suhu, tds atau nutrisi yang ada di File .ino dikirim ke Flask 
+# lalu dikirim ke Mongodb, agar data kami disimpan di database
+# """
 
 client = MongoClient('mongodb+srv://SmartHidroponik:MERA_X@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik')
-database = client['Smart_Hidroponik']
-koleksi = database['Sensor']
+#client adalah variabel yang berfungsi untuk mengkoneksikan Mongodb ke program ini, dan MongoClient adalah class dari library pymongo
+database = client['Smart_Hidroponik'] #untuk memilih atau mengkoneksikan database yang sudah kami tambahkan
+koleksi = database['Sensor'] #untuk memilih atau mengkoneksikan koleksi atau collection yang sudah kami tambahkan
 
 data_mongo = list(koleksi.find({}, {'_id': 0, 'pH': 1, 'tds': 1, 'suhu': 1,'waktu':1}).sort('waktu', -1))
+
 data_frame = pd.DataFrame(data_mongo)
 
 
