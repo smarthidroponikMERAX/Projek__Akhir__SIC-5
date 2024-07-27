@@ -270,7 +270,7 @@ background-color: #fff; # warna backgroud
 """
 
     sensor_data = ambil_data()
-    if sensor_data is not None:
+    if sensor_data:
         pH = sensor_data['pH']
         suhu_air = sensor_data['suhu']
         nutrisi = sensor_data['tds']
@@ -380,11 +380,7 @@ background-color: #fff; # warna backgroud
 
     """
 
-    # Mengambil nilai sensor awal dari MongoDB
-
-
-    # Menampilkan CSS dan HTML di Streamlit
-    st.markdown(desain_css, unsafe_allow_html=True)
+    st.markdown(desain_css, unsafe_allow_html=True) 
     st.markdown(html_content, unsafe_allow_html=True)
 
 
