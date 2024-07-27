@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split  #diguakan memisahkan data 
 from sklearn.linear_model import LogisticRegression #digunkan sebagai model MachineLearning
 from sklearn.ensemble import RandomForestClassifier  #digunan sebagai model Machine Learning
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score  #untuk Metrix
-#import convert_csv
+
 
 st.set_page_config(page_title='Smart Hidroponik', layout="wide", page_icon="🍀")
 
@@ -31,9 +31,25 @@ client = MongoClient('mongodb+srv://SmartHidroponik:MERA_X@smarthidroponik.hdetb
 database = client['Smart_Hidroponik'] #untuk memilih atau mengkoneksikan database yang sudah kami tambahkan
 koleksi = database['Sensor'] #untuk memilih atau mengkoneksikan koleksi atau collection yang sudah kami tambahkan
 
-data_mongo = list(koleksi.find({}, {'_id': 0, 'pH': 1, 'tds': 1, 'suhu': 1,'waktu':1}).sort('waktu', -1))
+# """
+#     Penjelasan :
+    
+#     Kami mendapatkan format link tersebut dari website Mongodb, 
+#     kami mendapatkannya dari tombol connect yang terdapat di overview,
+#     lalu kami menekan timbil drivers sehingga muncul format link:
+#     mongodb+srv://<username>:<password>@smarthidroponik.hdetbis.mongodb.net/?retryWrites=true&w=majority&appName=SmartHidroponik
+#     """
 
-data_frame = pd.DataFrame(data_mongo)
+data_mongo = list(koleksi.find({}, {'_id': 0, 'pH': 1, 'tds': 1, 'suhu': 1,'waktu':1}).sort('waktu', -1))
+# .find digunakan untuk mengambil semua data, data yang tampil hanya pH, tds/nutrisi, dan suhu, .sort digunakan untuk mengurutkan waktu terakhir masuk
+data_frame = pd.DataFrame(data_mongo)  # Membuat menjadi list
+
+ # """
+ #    Penjelasan :
+    
+ #    Kami tidak menampilkan atau mengambil _id tidak terlalu penting, sehiingga hanya perlu mengambil atau menampilkan pH, tds/nutrisi,suhu.
+ #    lalu kami juga harus mengurutkan data terakhir bukan data pertama, maka dari itu index nya -1
+ #    """
 
 
 #"""============================DESAIN WEB================="""
@@ -231,14 +247,16 @@ color:green;}
 </style>
 """
 
-if data_frame is not None:
+
+if data_frame is not None: #membagi 3 variabel jika data_frame tidak kosong
     pH = data_frame['pH'].iloc[0]
     suhu_air =data_frame['suhu'].iloc[0]
     nutrisi = data_frame['tds'].iloc[0]
-else:
+else: #jika data kosong maka write tidak ada data sensor tersedia
     st.write('Tidak ada data sensor yang tersedia saat ini.')
     pH, suhu_air, nutrisi = 0, 0, 0
 
+#kode html
 html_content = f"""
 <div id = "Tampilan">
 <div class = "bagian-header">
@@ -343,22 +361,21 @@ slider.oninput = function() {{
 st.markdown(desain_css, unsafe_allow_html=True)
 st.markdown(html_content, unsafe_allow_html=True)
 
-if data_frame is not None:
 
+
+    #menampilkan grafik 
     st.title("Grafik pH, suhu, Nutrisi")
 
 if 'waktu' in data_frame.columns:
     data_frame['waktu'] = pd.to_datetime(data_frame['waktu'], errors='coerce')
-
-
-        
-
     data_frame = data_frame.dropna(subset=['waktu'])
     data_frame['waktu'] = data_frame['waktu'].dt.strftime('%d-%b')
+    # menyesuaikan format yang ada di database 
 
+            
     st.subheader("Grafik Sensor")
     st.write("pH Sensor:")
-    st.line_chart(data_frame.set_index('waktu')['pH'])
+    st.line_chart(data_frame.set_index('waktu')['pH'])#grafik yang menyesuaikan tanggal dan bulan dari database
 
     st.write("Suhu Air:")
     st.line_chart(data_frame.set_index('waktu')['suhu'])
@@ -370,12 +387,12 @@ else:
 
 
 st.subheader("Pilih Machine Learning Model")
-model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest"))
+model_option = st.selectbox("Select Model", ("Linear Regression", "Random Forest")) #pilihan modelling ai
 
 if model_option:
    st.success(f"{model_option} selected!")
    
-def categorize_ph(value):
+def categorize_ph(value): #memastikan atau membuat cek kesehatan tanaman lewat pH
     if value < 5:
         return 'tidak sehat'
     elif 5 <= value <= 7:
@@ -383,7 +400,7 @@ def categorize_ph(value):
     else:
         return 'tidak sehat'
 
-def categorize_tds(value):
+def categorize_tds(value): #memastikan atau membuat cek kesehatan tanaman lewat pH
     if value < 1050:
         return 'tidak sehat'
     elif 1050 <= value <= 1400:
@@ -391,30 +408,37 @@ def categorize_tds(value):
     else:
         return 'tidak sehat'
 
-data_frame['pH kategori'] = data_frame['pH'].apply(categorize_ph)
+data_frame['pH kategori'] = data_frame['pH'].apply(categorize_ph) #menambahkan data 
 data_frame['TDS kategori'] = data_frame['tds'].apply(categorize_tds)
 
+#membuat semua data menjadi angka
 label_encoder = LabelEncoder()
 data_frame['TDS kategori'] = label_encoder.fit_transform(data_frame['TDS kategori'])
 data_frame['pH kategori'] = label_encoder.fit_transform(data_frame['pH kategori'])
 
+
+#memisahkan data independen dan dependen
 independen_ph = data_frame[['suhu', 'tds']]
 dependen_ph = data_frame['pH kategori']
 independen_nutrisi = data_frame[['suhu', 'pH']]
 dependen_nutrisi = data_frame['TDS kategori']
 
+#melatih machine learning 
 independen_train_ph, independen_test_ph, dependen_train_ph, dependen_test_ph = train_test_split(independen_ph, dependen_ph, test_size=0.25, stratify=dependen_ph)
 independen_train_nutrisi, independen_test_nutrisi, dependen_train_nutrisi, dependen_test_nutrisi = train_test_split(independen_nutrisi, dependen_nutrisi, test_size=0.25, stratify=dependen_nutrisi)
 
+#menggunakan model logistik regression
 model_ph = LogisticRegression(class_weight='balanced') if model_option == "Linear Regression" else RandomForestClassifier(class_weight='balanced')
 model_nutrisi = LogisticRegression(class_weight='balanced') if model_option == "Linear Regression" else RandomForestClassifier(class_weight='balanced')
 
+#menambah keakuratan
 model_ph.fit(independen_train_ph, dependen_train_ph)
 hasil_prediksi_ph = model_ph.predict(independen_test_ph)
 
 model_nutrisi.fit(independen_train_nutrisi, dependen_train_nutrisi)
 hasil_prediksi_nutrisi = model_nutrisi.predict(independen_test_nutrisi)
 
+#matrix machine learning
 accuracy_ph = accuracy_score(dependen_test_ph, hasil_prediksi_ph)
 precision_ph = precision_score(dependen_test_ph, hasil_prediksi_ph, average='macro')
 recall_ph = recall_score(dependen_test_ph, hasil_prediksi_ph, average='macro')
@@ -438,11 +462,3 @@ st.write(f"Recall (Nutrisi): {recall_nutrisi:.2f}")
 st.write(f"F1 Score (Nutrisi): {f1_nutrisi:.2f}")
 
 
-# if 'page' not in st.session_state:
-#     st.session_state['page'] = 'convert_csv'
-# # Fungsi untuk mengatur navigasi
-# def navigate_to(page):
-#     st.session_state['page'] = page
-# st.sidebar.button("Konversi ke Csv", on_click=navigate_to, args=("convert_csv",))
-# if st.session_state['page'] == 'convert_csv':
-#     convert_csv.show()
